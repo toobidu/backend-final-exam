@@ -1,0 +1,6 @@
+D:\Code\C#\Learn\demo-test-final\Demo\obj\Debug\net9.0\Demo.csproj.AssemblyReference.cache
+D:\Code\C#\Learn\demo-test-final\Demo\obj\Debug\net9.0\Demo.GeneratedMSBuildEditorConfig.editorconfig
+D:\Code\C#\Learn\demo-test-final\Demo\obj\Debug\net9.0\Demo.AssemblyInfoInputs.cache
+D:\Code\C#\Learn\demo-test-final\Demo\obj\Debug\net9.0\Demo.AssemblyInfo.cs
+D:\Code\C#\Learn\demo-test-final\Demo\obj\Debug\net9.0\Demo.csproj.CoreCompileInputs.cache
+D:\Code\C#\Learn\demo-test-final\Demo\obj\Debug\net9.0\Demo.sourcelink.json
