@@ -1,118 +1,188 @@
-# 🛠️ Vehicle Repair Management API - Final Exam
+Vehicle Repair Management API
+Ứng dụng API quản lý hoạt động sửa chữa phương tiện giao thông tại trung tâm bảo dưỡng, được xây dựng bằng ASP.NET Core Web API theo kiến trúc RESTful. Dự án đáp ứng các yêu cầu của bài thi cuối kỳ với các tính năng chính và cấu trúc chuẩn hóa.
 
-> 👨‍💻 Họ tên: *[Your Name]*  
-> 🆔 MSSV: *[Your Student ID]*  
-> ⏱️ Thời gian làm bài: 120 phút  
-> 📅 Đề số: 2  
+Mục tiêu
 
----
-
-## 🎯 Mục tiêu
-
-Xây dựng ứng dụng ASP.NET Core Web API theo kiến trúc **RESTful**, quản lý hoạt động sửa chữa phương tiện giao thông tại trung tâm bảo dưỡng. Dự án có:
-
-- Cấu trúc chuẩn hoá thư mục & naming convention
-- Áp dụng chuẩn `Service Layer`, `Dependency Injection`
-- Tích hợp Swagger UI
-- Tương tác cơ sở dữ liệu bằng **Entity Framework Core** (Code First)
-- Xử lý lỗi bằng `UserFriendlyException`
-
----
-
-## 📁 Cấu trúc thư mục
-
-├── Constants/
-├── Controllers/
-├── DbContexts/
-├── Dtos/
-│ ├── Mechanic/
-│ └── Vehicle/
-├── Entities/
-├── Exceptions/
-├── Migrations/
-├── Services/
-│ ├── Interfaces/
-│ └── Implements/
-├── Utils/
-├── Properties/
-├── appsettings.json
-└── Program.cs
+Xây dựng API RESTful quản lý thông tin thợ sửa chữa, phương tiện và lịch sử sửa chữa.
+Áp dụng kiến trúc Service Layer và Dependency Injection.
+Tích hợp Swagger UI để tài liệu hóa và kiểm tra API.
+Sử dụng Entity Framework Core (Code First) để tương tác cơ sở dữ liệu.
+Xử lý lỗi nghiệp vụ với UserFriendlyException.
 
 
----
+Cấu trúc thư mục
+├── Constants/              # Các hằng số cố định
+├── Controllers/            # Các API endpoint
+├── DbContexts/             # Context cho Entity Framework Core
+├── Dtos/                   # Data Transfer Objects
+│   ├── Mechanic/           # DTO cho thợ sửa chữa
+│   └── Vehicle/            # DTO cho phương tiện
+├── Entities/               # Các model cơ sở dữ liệu
+├── Exceptions/             # Xử lý lỗi tùy chỉnh
+├── Migrations/             # Các file migration của EF Core
+├── Services/               # Logic nghiệp vụ
+│   ├── Interfaces/         # Giao diện dịch vụ
+│   └── Implements/         # Hiện thực dịch vụ
+├── Utils/                  # Các tiện ích hỗ trợ
+├── Properties/             # Cấu hình dự án
+├── appsettings.json        # Cấu hình ứng dụng
+└── Program.cs              # Điểm khởi chạy ứng dụng
 
-## 🧱 Mô hình dữ liệu
 
-### 🧑 Mechanic
+Mô hình dữ liệu
+Mechanic (Thợ sửa chữa)
 
-| Thuộc tính    | Kiểu dữ liệu | Ràng buộc                 |
-|---------------|--------------|----------------------------|
-| `Id`          | int          | PK, tự tăng                |
-| `MaTho`       | string       | Bắt buộc, duy nhất         |
-| `TenTho`      | string       | Bắt buộc, duy nhất         |
-| `CCCD`        | string       | Bắt buộc, duy nhất         |
-| `NgayNhanViec`| DateTime     |                            |
 
----
 
-### 🚗 Vehicle
+Thuộc tính
+Kiểu dữ liệu
+Ràng buộc
 
-| Thuộc tính    | Kiểu dữ liệu | Ràng buộc                 |
-|---------------|--------------|----------------------------|
-| `Id`          | int          | PK, tự tăng                |
-| `BienSoXe`    | string       | Bắt buộc, duy nhất         |
-| `LoaiXe`      | string       | Bắt buộc                   |
 
----
 
-### 🔧 RepairRecord (Many-to-Many)
+Id
+int
+Khóa chính, tự tăng
 
-| Thuộc tính     | Kiểu dữ liệu | Ghi chú                                |
-|----------------|--------------|----------------------------------------|
-| `Id`           | int          | PK, tự tăng                            |
-| `MechanicId`   | int          | FK tới `Mechanic`                      |
-| `VehicleId`    | int          | FK tới `Vehicle`                       |
-| `SoLanSua`     | int          | >= 0                                   |
 
----
+MaTho
+string
+Bắt buộc, duy nhất
 
-## 🚀 API yêu cầu
 
-### ✅ Thợ sửa chữa
+TenTho
+string
+Bắt buộc, duy nhất
 
-| Hành động                  | Mô tả |
-|----------------------------|------|
-| `POST /mechanics`          | Thêm mới (check trùng `MaTho`, `TenTho`, `CCCD`) |
-| `PUT /mechanics/{id}`      | Cập nhật thông tin |
-| `DELETE /mechanics/{id}`   | Xoá thợ sửa chữa |
-| `GET /mechanics`           | Lấy danh sách (phân trang + filter theo keyword) |
 
-#### 📥 Lọc danh sách
-```json
+CCCD
+string
+Bắt buộc, duy nhất
+
+
+NgayNhanViec
+DateTime
+Không bắt buộc
+
+
+Vehicle (Phương tiện)
+
+
+
+Thuộc tính
+Kiểu dữ liệu
+Ràng buộc
+
+
+
+Id
+int
+Khóa chính, tự tăng
+
+
+BienSoXe
+string
+Bắt buộc, duy nhất
+
+
+LoaiXe
+string
+Bắt buộc
+
+
+RepairRecord (Lịch sử sửa chữa - Quan hệ Many-to-Many)
+
+
+
+Thuộc tính
+Kiểu dữ liệu
+Ghi chú
+
+
+
+Id
+int
+Khóa chính, tự tăng
+
+
+MechanicId
+int
+Khóa ngoại tới Mechanic
+
+
+VehicleId
+int
+Khóa ngoại tới Vehicle
+
+
+SoLanSua
+int
+Số lần sửa chữa, giá trị >= 0
+
+
+
+API được triển khai
+Quản lý thợ sửa chữa
+
+
+
+HTTP Method
+Endpoint
+Mô tả
+
+
+
+POST
+/mechanics
+Thêm thợ mới (kiểm tra trùng MaTho, TenTho, CCCD)
+
+
+PUT
+/mechanics/{id}
+Cập nhật thông tin thợ
+
+
+DELETE
+/mechanics/{id}
+Xóa thợ sửa chữa
+
+
+GET
+/mechanics
+Lấy danh sách thợ (hỗ trợ phân trang và lọc theo từ khóa)
+
+
+Lọc danh sách thợ
 {
   "keyword": "Nguyen",
   "pageIndex": 1,
   "pageSize": 10
 }
-✅ Xe được sửa nhiều nhất bởi 1 thợ
-API	Mô tả
-GET /mechanics/{id}/top-repaired-vehicles	Trả về danh sách LoaiXe, BienSoXe có SoLanSua = MAX của mechanic đó
 
-⚠️ Xử lý lỗi nghiệp vụ
-Tạo custom exception:
+Lấy danh sách xe được sửa nhiều nhất bởi một thợ
 
-csharp
-Sao chép
-Chỉnh sửa
+
+
+HTTP Method
+Endpoint
+Mô tả
+
+
+
+GET
+/mechanics/{id}/top-repaired-vehicles
+Trả về danh sách LoaiXe, BienSoXe có số lần sửa cao nhất của thợ
+
+
+
+Xử lý lỗi
+Sử dụng custom exception để xử lý lỗi nghiệp vụ:
 public class UserFriendlyException : Exception
 {
     public UserFriendlyException(string message) : base(message) {}
 }
-Trong Controller:
 
-csharp
-Sao chép
-Chỉnh sửa
+Trong Controller:
 try
 {
     await _mechanicService.CreateAsync(dto);
@@ -121,61 +191,52 @@ catch (UserFriendlyException ex)
 {
     return BadRequest(new { message = ex.Message });
 }
-🧪 Ràng buộc dữ liệu
-Áp dụng trên các DTO:
 
-[Required], [StringLength], [MaxLength], [Range]
 
-Tự động Trim() các trường string
+Ràng buộc dữ liệu
 
-Không dùng thư viện ngoài
+Sử dụng các attribute [Required], [StringLength], [MaxLength], [Range] trên các DTO.
+Tự động loại bỏ khoảng trắng thừa (Trim()) cho các trường string.
+Không sử dụng thư viện bên ngoài trừ những thư viện được yêu cầu.
 
-🔤 Quy tắc đặt tên
-Format:
 
-php-template
-Sao chép
-Chỉnh sửa
-<TênClass><MãSốSinhViên>De3<GiờPhútHiệnTại>
-Ví dụ:
-MechanicDto20241123De31035, RepairRecordController20241123De31035
+Quy tắc đặt tên
+Tên class tuân theo định dạng:<TênClass><MãSốSinhViên>De3<GiờPhútHiệnTại>  
+Ví dụ:MechanicDto20241123De31035, RepairRecordController20241123De31035
+Lưu ý: Quy tắc này không áp dụng cho các file trong thư mục Migrations/.
 
-⚠️ Không áp dụng với file trong thư mục Migrations/
+Công nghệ sử dụng
 
-🧠 Kỹ thuật & Công nghệ
-ASP.NET Core 8 Web API
+ASP.NET Core 8 Web API: Xây dựng API RESTful.
+Swagger / Swashbuckle: Tài liệu hóa và kiểm tra API.
+Entity Framework Core (Code First): Quản lý cơ sở dữ liệu.
+LINQ & Query Syntax: Truy vấn dữ liệu hiệu quả.
+Service Layer + Interface: Tách biệt logic nghiệp vụ.
+Exception Handling: Xử lý lỗi chuyên nghiệp.
+SQL Server: Cơ sở dữ liệu.
 
-Swagger / Swashbuckle
 
-EF Core (Code First)
+Hướng dẫn chạy ứng dụng
 
-LINQ & Query Syntax
-
-Service Layer + Interface
-
-Exception Handling
-
-SQL Server
-
-▶️ Hướng dẫn chạy ứng dụng
-bash
-Sao chép
-Chỉnh sửa
+Tạo migration ban đầu:
 dotnet ef migrations add InitialCreate
+
+
+Cập nhật cơ sở dữ liệu:
 dotnet ef database update
+
+
+Chạy ứng dụng:
 dotnet run
-Truy cập Swagger UI tại:
-👉 https://localhost:{PORT}/swagger
 
-📝 Ghi chú
-Không sử dụng thư viện ngoài nếu đề không yêu cầu.
 
-Đặt tên namespace và class đúng theo quy định.
-
-Làm bài trong thời gian 120 phút, không được giải thích thêm.
+Truy cập Swagger UI tại:https://localhost:{PORT}/swagger
 
 
 
+Lưu ý
 
-
+Không sử dụng thư viện bên ngoài trừ những thư viện được yêu cầu.
+Đảm bảo đặt tên namespace và class đúng theo quy định.
+Hoàn thành ứng dụng trong thời gian 120 phút.
 
